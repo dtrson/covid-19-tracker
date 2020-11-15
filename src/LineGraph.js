@@ -46,9 +46,10 @@ const options = {
     }
 }
 
-const buildChartData = (data, casesType = 'cases') => {
+const buildChartData = (data, casesType) => {
     const chartData = [];
     let lastDataPoint;
+    console.log(casesType)
 
     for (let date in data.cases) {
         if (lastDataPoint) {
@@ -63,7 +64,7 @@ const buildChartData = (data, casesType = 'cases') => {
     return chartData;
 }
 
-function LineGraph({casesType='cases'}) {
+function LineGraph({ casesType, ...props }) {
     const [data, setData] = useState({});
 
     //https://disease.sh/v3/covid-19/historical/all?lastdays=120
@@ -78,11 +79,10 @@ function LineGraph({casesType='cases'}) {
                 });
         }
         fetchData();
-
-    }, []);
+    }, [casesType]);
 
     return (
-        <div>
+        <div className={props.className}>
             {data?.length > 0 && (
                 <Line
                     options={options}
